@@ -1,11 +1,14 @@
 export const MODEL = "llama-3.3-70b-versatile";
+export const MODEL_FAST = "llama-3.1-8b-instant";
 const MAX_CHARS = 30_000;
+const MAX_CHARS_FAST = 14_000;
 
 export function buildSummarizePrompt(
   text: string,
   length: "brief" | "detailed",
   bullets: boolean,
-  lang?: string
+  lang?: string,
+  fast?: boolean
 ): { system: string; user: string; maxOutputTokens: number } {
   const instructions: string[] = [];
 
@@ -31,7 +34,8 @@ export function buildSummarizePrompt(
     "Do not add opinions or external knowledge. " +
     instructions.join(" ");
 
-  const truncated = text.slice(0, MAX_CHARS);
+  const limit = fast ? MAX_CHARS_FAST : MAX_CHARS;
+  const truncated = text.slice(0, limit);
 
   return {
     system,
@@ -42,14 +46,16 @@ export function buildSummarizePrompt(
 
 export function buildAskPrompt(
   text: string,
-  question: string
+  question: string,
+  fast?: boolean
 ): { system: string; user: string; maxOutputTokens: number } {
   const system =
     "You are a helpful assistant that answers questions based strictly on " +
     "the provided article text. If the answer is not in the text, say so. " +
     "Be concise and direct.";
 
-  const truncated = text.slice(0, MAX_CHARS);
+  const limit = fast ? MAX_CHARS_FAST : MAX_CHARS;
+  const truncated = text.slice(0, limit);
 
   return {
     system,
