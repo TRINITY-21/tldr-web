@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+        suppressHydrationWarning
       >
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
           <div className="orb" style={{ width: 400, height: 400, background: "#7c3aed", top: "20%", left: "-10%" }} />
